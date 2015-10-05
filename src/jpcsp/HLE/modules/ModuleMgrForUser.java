@@ -1001,7 +1001,7 @@ public class ModuleMgrForUser extends HLEModule {
         // SPRX modules can't be decrypted yet.
         if (!Modules.scePspNpDrm_userModule.getDisableDLCStatus()) {
             log.warn(String.format("ModuleMgrForUser_F2D8D1B4 detected encrypted DLC module: %s", path.getString()));
-            return SceKernelErrors.ERROR_NPDRM_INVALID_PERM;
+            //return SceKernelErrors.ERROR_NPDRM_INVALID_PERM;
         }
 
         return hleKernelLoadModule(path.getString(), flags, 0, 0, 0, lmOption, false, true);

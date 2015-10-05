@@ -155,7 +155,7 @@ public class scePspNpDrm_user extends HLEModule {
                     // If the CryptoEngine fails to find a match, then the file has been renamed.
                     if (!crypto.getPGDEngine().CheckEDATRenameKey(fName.getBytes(), srcHash, srcData)) {
                         if (!getDisableDLCStatus()) {
-                            result = SceKernelErrors.ERROR_NPDRM_NO_FILENAME_MATCH;
+                            //result = SceKernelErrors.ERROR_NPDRM_NO_FILENAME_MATCH;
                             log.warn("sceNpDrmRenameCheck: the file has been renamed");
                         }
                     }
