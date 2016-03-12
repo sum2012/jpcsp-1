@@ -220,7 +220,7 @@ public class scePsmfPlayer extends HLEModule {
             byte[] header = new byte[ISectorDevice.sectorLength];
             psmfFile.readFully(header);
             int psmfMagic = read32(null, 0, header, PSMF_MAGIC_OFFSET);
-            if (psmfMagic == PSMF_MAGIC) {
+            if (offset != 0 && psmfMagic == PSMF_MAGIC) {
             	// Found the PSMF header, extract the file size from the stream size and offset.
             	length = endianSwap32(read32(null, 0, header, PSMF_STREAM_SIZE_OFFSET));
             	length += endianSwap32(read32(null, 0, header, PSMF_STREAM_OFFSET_OFFSET));
