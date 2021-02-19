@@ -5076,12 +5076,32 @@ public final String category() { return "MIPS I/VFPU"; }
 
 @Override
 public void interpret(Processor processor, int insn) {
+	int vt1 = (insn>>0)&1;
+	int imm14 = (insn>>2)&16383;
+	int vt5 = (insn>>16)&31;
+	int rs = (insn>>21)&31;
+
+
+				// Checked using VfpuTest: VWB.Q is equivalent to SV.Q
+                processor.cpu.doSVQ((vt5|(vt1<<5)), rs, (int)(short)(imm14 << 2));
 	// Checked using VfpuTest: VWB.Q is equivalent to SV.Q
-	SVQ.interpret(processor, insn);
+	//SVQ.interpret(processor, insn);
 }
 @Override
 public void compile(ICompilerContext context, int insn) {
-	SVQ.compile(context, insn);
+	int vt1 = (insn>>0)&1;
+	int vt5 = (insn>>16)&31;
+	int vt = vt5 | (vt1<<5);
+	int simm14 = context.getImm14(true);
+	int rs = context.getRsRegisterIndex();
+    int vsize = 4;
+
+    for (int n = 0; n < vsize; n++) {
+    	context.prepareMemWrite32(rs, simm14 + n * 4, false);
+    	context.loadVtInt(vsize, vt, n);
+    	context.memWrite32(rs, simm14 + n * 4, false);
+    }
+	//SVQ.compile(context, insn);
 }
 @Override
 public String disasm(int address, int insn) {
