@@ -2,6 +2,9 @@
 rem change to the directory where the script itself; this is required when running as an administrator
 cd /d "%~dp0"
 
+rem check if 64-bit OS, which shouldn't be
+if exist "%SYSTEMROOT%\SysWOW64" ( goto JAVA_ARCH )
+
 rem check if java is installed
 java -help 2> nul
 if not %errorlevel% equ 0 ( goto JAVA_MISSING )
@@ -24,7 +27,6 @@ echo Running JPCSP 32-bit...
     -Dorg.lwjgl.system.allocator=system^
     -classpath "bin/jpcsp.jar;lib/lwjgl-3.2.3/lwjgl.jar;lib/lwjgl-3.2.3/lwjgl-openal.jar;lib/lwjgl-3.2.3/lwjgl-opengl.jar;lib/lwjgl-3.2.3/lwjgl-jawt.jar;lib/lwjgl-3.2.3/lwjgl-natives-windows-x86.jar;lib/lwjgl-3.2.3/lwjgl-openal-natives-windows-x86.jar;lib/lwjgl-3.2.3/lwjgl-opengl-natives-windows-x86.jar;lib/lwjgl-3.2.3/lwjgl-glfw.jar;lib/lwjgl-3.2.3/lwjgl-glfw-natives-windows-x86.jar"^
     jpcsp.MainGUI %*
-    if not %errorlevel% equ 0 ( goto JAVA_ARCH )
 goto END
 
 :JAVA_MISSING
